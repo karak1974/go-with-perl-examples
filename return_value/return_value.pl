@@ -1,4 +1,3 @@
-
 #!/usr/bin/perl
 
 use strict;
@@ -14,5 +13,5 @@ $ffi->lib( './return_value.so' );
 # Bind "ReturnInt" to the "ReturnInt" function
 $ffi->attach(ReturnInt => [] => 'int');
 
-# Run
+# Use
 printf("Returned int %d\n", ReturnInt());
