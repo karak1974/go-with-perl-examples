@@ -1,28 +1,16 @@
 #!/usr/bin/perl
 
 use strict;
-use warnings;
 
-package GoString;
-use FFI::Platypus::Record;
-
-# Same as
-# typedef struct{const char *p; go_int len;} go_str;
-record_layout_1(
-    'string rw' => 'p',
-    'long'      => 'len',
-);
+# Load FFI module
+use FFI::Platypus;
+use FFI::Go::String;
 
 # Configure to talk to the so lib
-my $ffi = FFI::Platypus->new( api => 1 );
+my $ffi = FFI::Platypus->new( api => 1, lang => 'Go' );
 $ffi->lib( './greeting.so' );
 
-$ffi->attach(SayGreeting => ['record(GoString)']);
+$ffi->attach(SayGreeting => ['gostring']);
 
 # Run
-my $string = 'John';
-my $go_string = GoString->new(
-    p => $string,
-    len => length($string),
-);
-SayGreeting($go_string);
+SayGreeting("John Doe");
